@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  app-front:
+    container_name: app-front
+    build: app-front/.
+    networks:
+      - web
+    ports:
+      - "8000:8000"
+    restart: on-failure
+    env_file: app-front/.env
+    environment:
+      APP_NAME: app-front
+    tty: true
+    stdin_open: true
+
+  app-backend:
+    container_name: app-backend
+    build: app-backend/.
+    networks:
+      - web
+    ports:
+      - "8001:8000"
+    restart: on-failure
+    env_file: app-backend/.env
+    environment:
+      APP_NAME: app-backend
+    tty: true
+    stdin_open: true
+
+  database:
+    image: 'mysql:8.0'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - web
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: main
+    ports:
+      # To allow the host machine to access the ports below, modify the lines below.
+      # For example, to allow the host to connect to port 3306 on the container, you would change
+      # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
+      # See https://docs.docker.com/compose/compose-file/compose-file-v3/#ports for more information.
+      - '3306'
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    networks:
+      - web
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+  caddy:
+    image: caddy
+    networks:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy-config:/etc/caddy
+
+
+networks:
+  web:
+    driver: bridge
