@@ -43,6 +43,8 @@ class BooksRepository extends ServiceEntityRepository
     public function findAllOrderedByReleaseDate(): array
     {
         return $this->createQueryBuilder('b')
+            ->select('b.id', 'b.title', 'b.pages', 'b.release_date', 'a.name as author')
+            ->join('b.author', 'a')
             ->orderBy('b.release_date', 'DESC')
             ->getQuery()
             ->getResult();

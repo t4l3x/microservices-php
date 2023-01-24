@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\BooksRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use JMS\Serializer\Annotation as JMS;
 
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
@@ -42,9 +44,11 @@ class Books
     /**
      * @JMS\Type("string")
      * @JMS\Groups({"book_list"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="books")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="authors")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
+    #[ManyToOne(targetEntity: Authors::class)]
+    #[JoinColumn(name: 'author_id', referencedColumnName: 'id')]
     private ?Authors $author;
 
     public function getId(): string

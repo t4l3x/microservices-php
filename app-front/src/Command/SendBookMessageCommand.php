@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Command;
-use App\DTO\BookDTO;
+use Common\DTO\BookDTO;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

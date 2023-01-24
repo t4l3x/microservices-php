@@ -8,6 +8,7 @@ use App\Repository\AuthorsRepository;
 use App\Repository\BooksRepository;
 use Common\DTO\BookDTO;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class BookService
 {
@@ -23,22 +24,26 @@ class BookService
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function saveBook(BookDTO $bookDTO)
+    public function saveBook(BookDTO $bookDTO): void
     {
         $this->entityManager->beginTransaction();
 
         try {
+
             $book = new Books();
             $book->setTitle($bookDTO->getTitle());
             $book->setPages($bookDTO->getPages());
             $book->setReleaseDate($bookDTO->getReleaseDate());
 
-            $author = new Authors();
-            $author->setName($bookDTO->getAuthor());
-            $this->entityManager->persist($author);
-
+            $author = $this->authorRepository->findOneBy(['name' => $bookDTO->getAuthor()]);
+            if(!$author) {
+                $author = new Authors();
+                $author->setName($bookDTO->getAuthor());
+                $this->entityManager->persist($author);
+            }
+            $book->setAuthor($author);
 
             $book->setAuthor($author);
 
@@ -46,7 +51,7 @@ class BookService
 
             $this->entityManager->commit();
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             $this->entityManager->rollback();
             throw $e;
