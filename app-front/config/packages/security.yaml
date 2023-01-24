@@ -4,16 +4,17 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        backend_users:
+            memory:
+                users:
+                    user_hard_coded_token: null
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+
         main:
-            lazy: true
-            provider: users_in_memory
+            pattern: ^/
             custom_authenticators:
                 - App\Security\ApiKeyAuthenticator
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
