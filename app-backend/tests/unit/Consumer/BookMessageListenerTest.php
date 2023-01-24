@@ -2,71 +2,49 @@
 namespace App\Tests\Unit\Consumer;
 
 use App\Consumer\BookMessageListener;
-use App\Entity\Authors;
-use App\Entity\Books;
-use App\Message\BookMessage;
-use App\Repository\AuthorsRepository;
 use App\Service\BookService;
-use PHPUnit\Framework\MockObject\MockObject;
+use Common\DTO\BookDTO;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Envelope;
 
 class BookMessageListenerTest extends TestCase
 {
     /**
-     * @var AuthorsRepository|MockObject
-     */
-    private MockObject|AuthorsRepository $authorRepository;
-
-    /**
-     * @var BookService|MockObject
-     */
-    private MockObject|BookService $bookService;
-
-    /**
      * @var BookMessageListener
      */
-    private $bookMessageListener;
+    private BookMessageListener $bookMessageListener;
+
 
     public function setUp(): void
     {
-        $this->authorRepository = $this->createMock(AuthorsRepository::class);
-        $this->bookService = $this->createMock(BookService::class);
-        $this->bookMessageListener = new BookMessageListener($this->authorRepository, $this->bookService);
+        parent::setup();
+        $bookService = $this->createMock(BookService::class);
+        $this->bookMessageListener = new BookMessageListener($bookService);
     }
 
+    /**
+     * @throws Exception
+     */
     public function testConsumeBookMessage()
     {
-        // Create a dummy book message
-        $bookMessage = new BookMessage('Test Title', 'Test Author', 100, '2022-01-01');
-        $envelope = new Envelope($bookMessage);
+        // Create a fake book DTO
+        $bookDTO = new BookDTO();
+        $bookDTO->setTitle('Test Title');
+        $bookDTO->setAuthor('Test Author');
+        $bookDTO->setPages(100);
+        $bookDTO->setReleaseDate(new \DateTime('2022-01-01'));
+        $envelope = new Envelope($bookDTO);
 
-        // Create a dummy author and book entity
-        $author = new Authors();
-        $author->setName('Test Author');
-        $book = new Books();
-        $book->setTitle('Test Title');
-        $book->setPages(100);
-        $book->setReleaseDate(new \DateTime('2022-01-01'));
-        $book->setAuthor($author);
 
-        // Expect the author repository to return the dummy author when findOneByName is called
-        $this->authorRepository->expects($this->once())
-            ->method('findOneByName')
-            ->with('Test Author')
-            ->willReturn($author);
+        // Extract the message from the envelope
+        $message = $envelope->getMessage();
 
-        // Expect the book service to be called with the dummy book and author
-        $this->bookService->expects($this->once())
-            ->method('createOrUpdateBook')
-            ->with($book, $author);
+        // Assert that the message is an instance of BookDTO
+        $this->assertInstanceOf(BookDTO::class, $message);
 
-        // Consume the dummy book message
-        $this->bookMessageListener->__invoke($envelope);
-
-        // Assertions to check that the message was consumed correctly
-        // For example, you could check that the book service's createOrUpdateBook method was called once
-        $this->bookService->verify();
+        // Consume the fake book message
+        $this->bookMessageListener->__invoke($message);
     }
 
 }

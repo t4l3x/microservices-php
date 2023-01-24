@@ -1,5 +1,0 @@
-localhost:8000 {
-    reverse_proxy {
-        to app-front:8000
-    }
-}

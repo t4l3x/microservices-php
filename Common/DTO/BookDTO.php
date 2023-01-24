@@ -14,7 +14,7 @@ class BookDTO
      *     message="Title can only contain letters, numbers, and periods"
      * )
      */
-    public string $title;
+    private string $title;
 
     /**
      * @Assert\Length(max=30)
@@ -23,19 +23,19 @@ class BookDTO
      *     message="Title can only contain letters, numbers, and periods"
      * )
      */
-    public string $author;
+    private string $author;
 
     /**
      * @Assert\NotBlank
      * @Assert\Range(min=0, max=1000)
      */
-    public int $pages;
+    private int $pages;
 
     /**
      * @Assert\NotBlank
      * @Assert\Range(min="-100 years", max="+100 years")
      */
-    public ?DateTimeInterface $releaseDate;
+    private ?DateTimeInterface $releaseDate;
 
     /**
      * @return string
