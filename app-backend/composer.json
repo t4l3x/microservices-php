@@ -30,6 +30,10 @@
         "symfony/yaml": "6.2.*"
     },
     "require-dev": {
+        "codeception/codeception": "^5.0",
+        "codeception/module-asserts": "^3.0",
+        "codeception/module-phpbrowser": "^3.0",
+        "codeception/module-symfony": "^3.1",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "symfony/maker-bundle": "^1.48"
     },

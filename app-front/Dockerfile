@@ -16,23 +16,4 @@ RUN apt-get update \
 
 RUN docker-php-ext-install zip;
 
-# configure PHP
-RUN docker-php-ext-configure zip --with-libzip
-RUN docker-php-ext-install pdo_mysql curl json zip
-
-# install dependencies
-RUN apk add --no-cache \
-    curl \
-    libcurl \
-    libzip-dev \
-    zip \
-    caddy
-# copy caddy config
-COPY ../caddy-config/Caddyfile /etc/caddy/Caddyfile
-# run caddy
-CMD ["caddy", "-conf", "/etc/caddy/Caddyfile", "-agree"]
-
-
 CMD bash -c "cd /app && composer install && php -a"
-# expose ports
-EXPOSE 8000

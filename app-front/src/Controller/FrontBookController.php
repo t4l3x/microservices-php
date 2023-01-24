@@ -41,6 +41,9 @@ class FrontBookController extends AbstractController
      */
     public function createBook(Request $request, ValidatorInterface $validator): JsonResponse
     {
+        /** @todo
+         *  Create DTO Serializer service
+         */
         $dto = $this->serializer->deserialize($request->getContent(), BookDTO::class, 'json');
         $errors = $validator->validate($dto);
 

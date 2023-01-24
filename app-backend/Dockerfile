@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY .. /app/
@@ -8,14 +8,6 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
     install-php-extensions amqp
-# install dependencies
-RUN apk add --no-cache \
-    curl \
-    libcurl \
-    libzip-dev \
-    zip \
-    caddy
-
 
 RUN apt-get update \
   && apt-get install -y libzip-dev wget --no-install-recommends \
@@ -23,14 +15,5 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN docker-php-ext-install zip;
-#
-## copy caddy config
-#COPY ../caddy-config/Caddyfile /etc/caddy/Caddyfile
-#
-## run caddy
-#CMD ["caddy", "-conf", "/etc/caddy/Caddyfile", "-agree"]
-#
-## expose ports
-#EXPOSE 8001
 
 CMD bash -c "cd /app && composer install && php -a"
