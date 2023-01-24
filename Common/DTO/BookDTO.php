@@ -2,21 +2,26 @@
 
 namespace Common\DTO;
 
-use DateTime;
 use DateTimeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class BookDTO
 {
     /**
-     * @Assert\NotBlank
      * @Assert\Length(max=30)
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9\.]+$/",
+     *     message="Title can only contain letters, numbers, and periods"
+     * )
      */
     public string $title;
 
     /**
-     * @Assert\NotBlank
      * @Assert\Length(max=30)
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9\.]+$/",
+     *     message="Title can only contain letters, numbers, and periods"
+     * )
      */
     public string $author;
 
@@ -28,9 +33,9 @@ class BookDTO
 
     /**
      * @Assert\NotBlank
-     * @Assert\Date
+     * @Assert\Range(min="-100 years", max="+100 years")
      */
-    public DateTimeInterface $releaseDate;
+    public ?DateTimeInterface $releaseDate;
 
     /**
      * @return string
@@ -77,10 +82,10 @@ class BookDTO
     }
 
     /**
-     * @param int $pages
+     * @param string $pages
      * @return BookDTO
      */
-    public function setPages(int $pages): BookDTO
+    public function setPages(string $pages): BookDTO
     {
         $this->pages = $pages;
         return $this;
@@ -95,13 +100,12 @@ class BookDTO
     }
 
     /**
-     * @param ?string $releaseDate
+     * @param ?DateTimeInterface $releaseDate
      * @return BookDTO
      */
-    public function setReleaseDate(?string $releaseDate): BookDTO
+    public function setReleaseDate(?DateTimeInterface $releaseDate): BookDTO
     {
-
-        $this->releaseDate = DateTime::createFromFormat('d-m-Y',$releaseDate);
+        $this->releaseDate = $releaseDate;
         return $this;
     }
 }
