@@ -14,6 +14,9 @@ services:
       APP_NAME: app-front
     tty: true
     stdin_open: true
+    volumes:
+      - "./Common:/app/Common"
+      - "./app-front:/app/app"
 
   app-backend:
     container_name: app-backend
@@ -28,8 +31,15 @@ services:
       APP_NAME: app-backend
     tty: true
     stdin_open: true
+    depends_on:
+      - "database"
+      - "rabbitmq"
+    volumes:
+      - "./Common:/app/Common"
+      - "./app-backend:/app/app"
 
   database:
+    container_name: database
     image: 'mysql:8.0'
     volumes:
       - ./mysql:/var/lib/mysql
@@ -43,7 +53,7 @@ services:
       # For example, to allow the host to connect to port 3306 on the container, you would change
       # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
       # See https://docs.docker.com/compose/compose-file/compose-file-v3/#ports for more information.
-      - '3306'
+      - "3306:3306"
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
   rabbitmq:
@@ -61,3 +71,6 @@ services:
 networks:
   web:
     driver: bridge
+
+volumes:
+  Common:
