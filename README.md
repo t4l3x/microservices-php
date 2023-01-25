@@ -11,7 +11,7 @@ To run the project, please follow these steps:
 
 - To test the "app-front" application:
 
-- Send a POST request to http://yourlocalip:8000/books with the following header: X-AUTH-TOKEN: user_hard_coded_token
+- Send a POST request to http://yourlocalip:8000/books with the following header: ```X-AUTH-TOKEN: user_hard_coded_token```
 - In the body of the request, include the following JSON data as an example:
 ```
 {
