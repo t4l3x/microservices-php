@@ -1,4 +1,4 @@
-# MicroserviceSymfony
+# Microservices with Symfony
 This project is a simple implementation of a microservice architecture using Symfony and RabbitMQ. It consists of two applications: "app-backend" and "app-front". The "app-backend" is responsible for handling the database and message queue, while the "app-front" acts as the API for the client to interact with the service. The "Common" directory contains shared files between the two applications.
 
 To run the project, please follow these steps:
