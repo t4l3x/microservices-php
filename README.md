@@ -4,8 +4,8 @@ This project is a simple implementation of a microservice architecture using Sym
 To run the project, please follow these steps:
 
 - Clone the repository
-- Run docker-compose up --build -d to start the containers
-- Run symfony server:start in both the "app-front" and "app-backend" containers to start the web server
+- Run ```docker-compose up --build -d``` to start the containers
+- Run ```symfony server:start``` in both the "app-front" and "app-backend" containers to start the web server
 - Run migrations in the "app-backend" container to set up the database
 ------
 
