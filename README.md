@@ -5,9 +5,10 @@ To run the project, please follow these steps:
 
 - Clone the repository
 - Run ```docker-compose up --build -d``` to start the containers
-- Run migrations in the "app-backend" container to set up the database (cd app  ```cd app/app``` ```php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration```)
+- Run migrations in the "app-backend" container to set up the database (cd app  ```cd app/app``` ```php bin/console doctrine:migrations:migrate```)
 - Run ```php bin/console messenger:consume async``` in the "app-backend" container to start the message queue consumer
-- Run ```symfony server:start``` in both the "app-front" and "app-backend" containers to start the web server
+- Run ```cd app``` ```symfony server:start``` in both the "app-front" and "app-backend" containers to start the web server
+- Run ```cd app``` ```php ./vendor/bin/codecept run``` in both the "app-front" and "app-backend" containers to run tests
 
 ------
 
