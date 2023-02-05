@@ -31,9 +31,6 @@ services:
       APP_NAME: app-backend
     tty: true
     stdin_open: true
-    depends_on:
-      - "database"
-      - "rabbitmq"
     volumes:
       - "./Common:/app/Common"
       - "./app-backend:/app/app"

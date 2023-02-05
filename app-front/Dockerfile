@@ -29,5 +29,5 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-CMD bash -c "cd /app/app && composer install && php -a && php bin/console make:migration && symfony server:start"
+CMD bash -c "cd /app/app && composer install && php -a && symfony server:start"
 EXPOSE 8000
