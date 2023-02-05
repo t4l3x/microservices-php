@@ -38,10 +38,10 @@ class SendBookMessageCommand extends Command
         $releaseDate = $input->getArgument('releaseDate');
 
         $dto = new BookDTO();
-        $dto->title = $title;
-        $dto->author = $author;
-        $dto->pages = $pages;
-        $dto->releaseDate = $releaseDate;
+        $dto->setTitle($title);
+        $dto->setAuthor($author);
+        $dto->setPages($pages);
+        $dto->setReleaseDate($releaseDate);
 
         $this->bus->dispatch($dto);
         $output->writeln(sprintf('Book message sent: %s', $title));
