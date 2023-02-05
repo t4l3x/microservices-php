@@ -66,10 +66,10 @@ class FrontBookControllerTest  extends \Codeception\Test\Unit
         $expectedBooks = [
             [
                 'id' => '018621b9-d781-78bb-8614-563152e13a30',
-                'title' => '.sddsa',
+                'title' => 'Test Book',
                 'pages' => 13,
                 'release_date' => '2022-12-10T00:00:00+00:00',
-                'author' => 'UK'
+                'author' => 'Test Author',
             ],
         ];
 
