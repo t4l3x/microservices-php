@@ -5,8 +5,10 @@ To run the project, please follow these steps:
 
 - Clone the repository
 - Run ```docker-compose up --build -d``` to start the containers
-- Run ```symfony server:start``` in both the "app-front" and "app-backend" containers to start the web server
 - Run migrations in the "app-backend" container to set up the database (cd app  ```cd app/app``` ```php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration```)
+- Run ```php bin/console messenger:consume async``` in the "app-backend" container to start the message queue consumer
+- Run ```symfony server:start``` in both the "app-front" and "app-backend" containers to start the web server
+
 ------
 
 - To test the "app-front" application:
